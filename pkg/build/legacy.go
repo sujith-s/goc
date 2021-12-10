@@ -24,7 +24,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/qiniu/goc/pkg/cover"
-	"github.com/tongjingran/copy"
+	"github.com/sujith-s/copy"
 )
 
 func (b *Build) cpLegacyProject() {
@@ -38,7 +38,7 @@ func (b *Build) cpLegacyProject() {
 			continue
 		}
 
-		if err := copy.Copy(src, dst, copy.Options{Skip: skipCopy}); err != nil {
+		if err := copy.Copy(src, dst, copy.Options{Skip: skipCopy, OnSymlink: onSymlink}); err != nil {
 			log.Errorf("Failed to Copy the folder from %v to %v, the error is: %v ", src, dst, err)
 		}
 
@@ -101,4 +101,8 @@ func skipCopy(src string, info os.FileInfo) (bool, error) {
 		return true, nil
 	}
 	return false, nil
+}
+
+func onSymlink(sre string) copy.SymlinkAction {
+	return copy.Deep
 }

@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/tongjingran/copy"
+	"github.com/sujith-s/copy"
 	"golang.org/x/mod/modfile"
 )
 
@@ -34,7 +34,7 @@ func (b *Build) cpGoModulesProject() {
 			dst := b.TmpDir
 			src := v.Module.Dir
 
-			if err := copy.Copy(src, dst, copy.Options{Skip: skipCopy}); err != nil {
+			if err := copy.Copy(src, dst, copy.Options{Skip: skipCopy, OnSymlink: onSymlink}); err != nil {
 				log.Errorf("Failed to Copy the folder from %v to %v, the error is: %v ", src, dst, err)
 			}
 			break
